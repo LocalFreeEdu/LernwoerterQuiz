@@ -32,7 +32,7 @@ jobs:
       - name: Build hochladen
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: dist/lernwoerter-quiz/browser
 
   deploy:
     needs: build
