@@ -1,0 +1,310 @@
+    /* --- Flex-Layout für die gesamte Seite --- */
+    :host {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding-top: 30px;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+
+        display: flex;              /* Quiz links, Restart rechts */
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+    }
+
+    /* Linker Bereich (Feedback + Quizbox) */
+    #left-area {
+        width: 600px;
+    }
+
+    #feedback-title {
+        text-align: left;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 30px;
+    }
+
+    #feedback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    }
+
+    #progress-bar {
+        display: flex;
+        gap: 4px;
+        margin: 10px auto 20px auto;
+        max-width: 600px;
+    }
+
+    .progress-cell {
+        display: flex;
+        flex: 1;
+        height: 20px;
+        background: #dcdcdc;
+        border-radius: 3px;
+        transition: background 0.3s ease;
+
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+
+    }
+
+    #quiz-box {
+        background: white;
+        padding: 20px 20px 30px 20px;
+        border-style: none;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 { text-align: center; }
+
+    #question, #empty-message {
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    #empty-message{
+        text-align: center;
+    }
+
+    #correct-answer {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #444;
+    }
+
+    #correct-answer b {
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* >>> KORREKT: ID für das Eingabefeld */
+    #answer-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        padding-right: 15px;   /* Abstand rechts */
+        font-size: 18px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #aaa;
+    }
+
+    #check-btn, #next-btn {
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    #restart-end-btn{
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+        background: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    #next-btn {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    }
+
+    /* Rechter Bereich: großer Restart-Button */
+    /*#restart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+        border: none;
+        padding-top: 32px;
+        padding-left: 100px;
+    }
+        */
+
+    #restart-btn {
+        background: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 8px 16px;
+        width: auto;
+    }
+
+    #restart-btn:hover {
+        transform: scale(1.05);
+    }
+
+    #upload-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+
+    background-color: #757575;
+    color: white;
+
+    cursor: pointer;
+    font-size: 14px;
+    }
+
+    #upload-btn:hover {
+    background-color: #616161;
+    }
+
+    .toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.word-btn,
+.undo-btn {
+  padding: 10px 16px;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+
+.word-btn {
+  margin-left: 0;
+  margin-right: 8px;
+  border: 1px solid #aaa;
+  background: white;
+  cursor: pointer;
+}
+
+#word-buttons .word-btn:first-child {
+  margin-left: 0;
+}
+
+#word-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.word-btn.used {
+  background: #e0e0e0;
+  text-decoration: line-through;
+  color: #666;
+}
+
+.undo-btn {
+  margin-left: auto;
+  align-self: center;
+
+  border: 1px solid #ff9800;
+
+  background: #fff3e0;
+  color: #e65100;
+
+  cursor: pointer;
+}
+
+.undo-btn:disabled {
+  background: #e0e0e0;
+  color: #666;
+  border: 1px solid #aaa;
+  cursor: default;
+}
+
+#answer-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#answer-row #answer-input {
+  flex: 1;
+  margin-top: 0;
+}
+
+#speak-btn {
+  width: 48px;
+  height: 42px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#speak-btn:hover {
+  background: #f0f0f0;
+}
