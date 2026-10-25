@@ -42,10 +42,6 @@ export class App implements OnInit {
   nextButtonColor = '#4CAF50';
   progressCells: string[] = [];
   vocab: Vocabulary[] = [];
-  
-  selectedVoice: SpeechSynthesisVoice | null = null;
-  selectedVoiceName = '';
-  availableVoices: string[] = [];
 
   quizList: Vocabulary[] = [];
   usedWordIndices: number[] = [];
@@ -54,6 +50,7 @@ export class App implements OnInit {
   endofquiz = false;
   isTopicMode = false;
   vereinfachterModus = false;
+  selectedVoice: SpeechSynthesisVoice | null = null;
 
   answer = '';
 
@@ -76,19 +73,14 @@ export class App implements OnInit {
 
   ngOnInit(): void {
 
-    const loadVoices = () => {
+    const selectVoice = () => {
 
       const voices =
         speechSynthesis.getVoices();
 
-      this.availableVoices =
-        voices.map(v =>
-          `${v.name} (${v.lang})`
-        );
-
       this.selectedVoice =
 
-        // Windows
+        // Windows-Favoriten
         voices.find(v =>
           v.name ===
           'Microsoft Katja Online (Natural) - German (Germany)'
@@ -117,7 +109,7 @@ export class App implements OnInit {
 
         ||
 
-        // Android
+        // Android-Favoriten
         voices.find(v =>
           v.name.includes('Google') &&
           v.lang === 'de-DE'
@@ -125,7 +117,7 @@ export class App implements OnInit {
 
         ||
 
-        // Apple
+        // Apple-Favoriten
         voices.find(v =>
           v.name.includes('Anna') &&
           v.lang.startsWith('de')
@@ -140,7 +132,7 @@ export class App implements OnInit {
 
         ||
 
-        // Beliebige deutsche Natural Voice
+        // Irgendeine deutsche Natural Voice
         voices.find(v =>
           v.name.includes('Natural') &&
           v.lang.startsWith('de')
@@ -148,7 +140,7 @@ export class App implements OnInit {
 
         ||
 
-        // Beliebige deutsche Stimme
+        // Irgendeine deutsche Stimme
         voices.find(v =>
           v.lang === 'de-DE'
         )
@@ -163,21 +155,16 @@ export class App implements OnInit {
 
         null;
 
-      this.selectedVoiceName =
-        this.selectedVoice?.name ??
-        'Keine Stimme gefunden';
-
       console.log(
         'Gewählte Stimme:',
-        this.selectedVoiceName
+        this.selectedVoice?.name
       );
-
     };
 
-    loadVoices();
+    selectVoice();
 
     speechSynthesis.onvoiceschanged =
-      loadVoices;
+      selectVoice;
   }
 
   startQuiz() {
