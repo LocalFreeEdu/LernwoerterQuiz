@@ -50,6 +50,7 @@ export class App implements OnInit {
   endofquiz = false;
   isTopicMode = false;
   vereinfachterModus = false;
+  selectedVoice: SpeechSynthesisVoice | null = null;
 
   answer = '';
 
@@ -70,34 +71,100 @@ export class App implements OnInit {
     
   }
 
-  private selectedVoice: SpeechSynthesisVoice | null = null;
-
   ngOnInit(): void {
 
-    speechSynthesis.onvoiceschanged = () => {
+    const selectVoice = () => {
 
       const voices =
         speechSynthesis.getVoices();
 
       this.selectedVoice =
+
+        // Windows-Favoriten
         voices.find(v =>
           v.name ===
           'Microsoft Katja Online (Natural) - German (Germany)'
         )
+
         ||
+
+        voices.find(v =>
+          v.name ===
+          'Microsoft Katja - German (Germany)'
+        )
+
+        ||
+
         voices.find(v =>
           v.name ===
           'Microsoft Conrad Online (Natural) - German (Germany)'
         )
+
         ||
+
+        voices.find(v =>
+          v.name ===
+          'Microsoft Stefan - German (Germany)'
+        )
+
+        ||
+
+        // Android-Favoriten
+        voices.find(v =>
+          v.name.includes('Google') &&
+          v.lang === 'de-DE'
+        )
+
+        ||
+
+        // Apple-Favoriten
+        voices.find(v =>
+          v.name.includes('Anna') &&
+          v.lang.startsWith('de')
+        )
+
+        ||
+
+        voices.find(v =>
+          v.name.includes('Petra') &&
+          v.lang.startsWith('de')
+        )
+
+        ||
+
+        // Irgendeine deutsche Natural Voice
+        voices.find(v =>
+          v.name.includes('Natural') &&
+          v.lang.startsWith('de')
+        )
+
+        ||
+
+        // Irgendeine deutsche Stimme
         voices.find(v =>
           v.lang === 'de-DE'
         )
+
         ||
+
+        voices.find(v =>
+          v.lang.startsWith('de')
+        )
+
+        ||
+
         null;
 
+      console.log(
+        'Gewählte Stimme:',
+        this.selectedVoice?.name
+      );
     };
 
+    selectVoice();
+
+    speechSynthesis.onvoiceschanged =
+      selectVoice;
   }
 
   startQuiz() {
@@ -531,6 +598,7 @@ isLetterMode(): boolean {
 
     utterance.lang = 'de-DE';
     utterance.rate = 0.8;
+    utterance.pitch = 1;
 
     speechSynthesis.speak(utterance);
 
