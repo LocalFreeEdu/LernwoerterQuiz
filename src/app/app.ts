@@ -42,7 +42,7 @@ export class App implements OnInit {
   nextButtonColor = '#4CAF50';
   progressCells: string[] = [];
   vocab: Vocabulary[] = [];
-
+  
   selectedVoice: SpeechSynthesisVoice | null = null;
   selectedVoiceName = '';
   availableVoices: string[] = [];
@@ -82,13 +82,9 @@ export class App implements OnInit {
         speechSynthesis.getVoices();
 
       this.availableVoices =
-        voices
-          .filter(v =>
-            v.lang.startsWith('de')
-          )
-          .map(v =>
-            `${v.name} (${v.lang})`
-          );
+        voices.map(v =>
+          `${v.name} (${v.lang})`
+        );
 
       this.selectedVoice =
 
