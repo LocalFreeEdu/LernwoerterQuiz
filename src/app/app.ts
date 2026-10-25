@@ -51,7 +51,6 @@ export class App implements OnInit {
   endofquiz = false;
   isTopicMode = false;
   vereinfachterModus = false;
-  selectedVoice: SpeechSynthesisVoice | null = null;
 
   answer = '';
 
@@ -61,6 +60,7 @@ export class App implements OnInit {
 
   answerLocked = false;
   feedback = '';
+  audioCache = new Map<string, string>();
 
   abkuerzungen: Record<string, string> = {
     PE: 'Physical Education',
@@ -73,99 +73,7 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
-
-    const selectVoice = () => {
-
-      const voices =
-        speechSynthesis.getVoices();
-
-      this.selectedVoice =
-
-        // Windows-Favoriten
-        voices.find(v =>
-          v.name ===
-          'Microsoft Katja Online (Natural) - German (Germany)'
-        )
-
-        ||
-
-        voices.find(v =>
-          v.name ===
-          'Microsoft Katja - German (Germany)'
-        )
-
-        ||
-
-        voices.find(v =>
-          v.name ===
-          'Microsoft Conrad Online (Natural) - German (Germany)'
-        )
-
-        ||
-
-        voices.find(v =>
-          v.name ===
-          'Microsoft Stefan - German (Germany)'
-        )
-
-        ||
-
-        // Android-Favoriten
-        voices.find(v =>
-          v.name.includes('Google') &&
-          v.lang === 'de-DE'
-        )
-
-        ||
-
-        // Apple-Favoriten
-        voices.find(v =>
-          v.name.includes('Anna') &&
-          v.lang.startsWith('de')
-        )
-
-        ||
-
-        voices.find(v =>
-          v.name.includes('Petra') &&
-          v.lang.startsWith('de')
-        )
-
-        ||
-
-        // Irgendeine deutsche Natural Voice
-        voices.find(v =>
-          v.name.includes('Natural') &&
-          v.lang.startsWith('de')
-        )
-
-        ||
-
-        // Irgendeine deutsche Stimme
-        voices.find(v =>
-          v.lang === 'de-DE'
-        )
-
-        ||
-
-        voices.find(v =>
-          v.lang.startsWith('de')
-        )
-
-        ||
-
-        null;
-
-      console.log(
-        'Gewählte Stimme:',
-        this.selectedVoice?.name
-      );
-    };
-
-    selectVoice();
-
-    speechSynthesis.onvoiceschanged =
-      selectVoice;
+  // Nichts zu tun
   }
 
   startQuiz() {
@@ -422,6 +330,14 @@ export class App implements OnInit {
       this.startQuiz();
       this.cdr.detectChanges();
 
+      if (this.quizList.length > 0) {
+
+        this.preloadWord(
+          this.quizList[0].de
+        );
+
+      }
+
     };
 
     reader.readAsText(file, 'iso-8859-1');
@@ -579,6 +495,45 @@ isLetterMode(): boolean {
 
   }
 
+
+  async preloadWord(word: string): Promise<void> {
+
+    if (this.audioCache.has(word)) {
+      return;
+    }
+
+    const url =
+      'https://lernwoerterquiz-api-cmgafyhkc5gaegh7.westeurope-01.azurewebsites.net/api/speak?text=' +
+      encodeURIComponent(word);
+
+    try {
+
+      const response =
+        await fetch(url);
+
+      if (!response.ok) {
+        return;
+      }
+
+      const blob =
+        await response.blob();
+
+      const audioUrl =
+        URL.createObjectURL(blob);
+
+      this.audioCache.set(
+        word,
+        audioUrl
+      );
+
+    }
+    catch {
+      // bewusst leer
+    }
+
+  }
+
+
   async speakWord(): Promise<void> {
 
     if (this.quizList.length === 0) {
@@ -587,6 +542,24 @@ isLetterMode(): boolean {
 
     const word =
       this.quizList[this.index].de;
+
+    const cachedAudio =
+      this.audioCache.get(word);
+
+    if (cachedAudio) {
+
+      /*console.log(
+        "Browser Cache Hit:",
+        word
+      );*/
+
+      const audio =
+        new Audio(cachedAudio);
+
+      await audio.play();
+
+      return;
+    }
 
     const url =
       'https://lernwoerterquiz-api-cmgafyhkc5gaegh7.westeurope-01.azurewebsites.net/api/speak?text=' +
@@ -608,6 +581,16 @@ isLetterMode(): boolean {
 
       const audioUrl =
         URL.createObjectURL(blob);
+
+      /*console.log(
+        "Browser Cache Miss:",
+        word
+      );*/
+
+      this.audioCache.set(
+        word,
+        audioUrl
+      );
 
       const audio =
         new Audio(audioUrl);
