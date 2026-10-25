@@ -43,6 +43,10 @@ export class App implements OnInit {
   progressCells: string[] = [];
   vocab: Vocabulary[] = [];
 
+  selectedVoice: SpeechSynthesisVoice | null = null;
+  selectedVoiceName = '';
+  availableVoices: string[] = [];
+
   quizList: Vocabulary[] = [];
   usedWordIndices: number[] = [];
   currentWords: { index: number; word: string; }[] = [];
@@ -50,7 +54,6 @@ export class App implements OnInit {
   endofquiz = false;
   isTopicMode = false;
   vereinfachterModus = false;
-  selectedVoice: SpeechSynthesisVoice | null = null;
 
   answer = '';
 
@@ -73,14 +76,23 @@ export class App implements OnInit {
 
   ngOnInit(): void {
 
-    const selectVoice = () => {
+    const loadVoices = () => {
 
       const voices =
         speechSynthesis.getVoices();
 
+      this.availableVoices =
+        voices
+          .filter(v =>
+            v.lang.startsWith('de')
+          )
+          .map(v =>
+            `${v.name} (${v.lang})`
+          );
+
       this.selectedVoice =
 
-        // Windows-Favoriten
+        // Windows
         voices.find(v =>
           v.name ===
           'Microsoft Katja Online (Natural) - German (Germany)'
@@ -109,7 +121,7 @@ export class App implements OnInit {
 
         ||
 
-        // Android-Favoriten
+        // Android
         voices.find(v =>
           v.name.includes('Google') &&
           v.lang === 'de-DE'
@@ -117,7 +129,7 @@ export class App implements OnInit {
 
         ||
 
-        // Apple-Favoriten
+        // Apple
         voices.find(v =>
           v.name.includes('Anna') &&
           v.lang.startsWith('de')
@@ -132,7 +144,7 @@ export class App implements OnInit {
 
         ||
 
-        // Irgendeine deutsche Natural Voice
+        // Beliebige deutsche Natural Voice
         voices.find(v =>
           v.name.includes('Natural') &&
           v.lang.startsWith('de')
@@ -140,7 +152,7 @@ export class App implements OnInit {
 
         ||
 
-        // Irgendeine deutsche Stimme
+        // Beliebige deutsche Stimme
         voices.find(v =>
           v.lang === 'de-DE'
         )
@@ -155,16 +167,21 @@ export class App implements OnInit {
 
         null;
 
+      this.selectedVoiceName =
+        this.selectedVoice?.name ??
+        'Keine Stimme gefunden';
+
       console.log(
         'Gewählte Stimme:',
-        this.selectedVoice?.name
+        this.selectedVoiceName
       );
+
     };
 
-    selectVoice();
+    loadVoices();
 
     speechSynthesis.onvoiceschanged =
-      selectVoice;
+      loadVoices;
   }
 
   startQuiz() {

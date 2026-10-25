@@ -206,3 +206,22 @@
   </div>
 
 </div>
+<br>
+<hr>
+
+<h3>Verfügbare Stimmen</h3>
+
+<ul>
+
+  @for (
+    voice of availableVoices;
+    track $index
+  ) {
+
+    <li>
+      {{ voice }}
+    </li>
+
+  }
+
+</ul>
