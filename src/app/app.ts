@@ -70,11 +70,35 @@ export class App implements OnInit {
     
   }
 
- ngOnInit(): void {
+  private selectedVoice: SpeechSynthesisVoice | null = null;
 
-//Nichts zu tun
+  ngOnInit(): void {
 
-}
+    speechSynthesis.onvoiceschanged = () => {
+
+      const voices =
+        speechSynthesis.getVoices();
+
+      this.selectedVoice =
+        voices.find(v =>
+          v.name ===
+          'Microsoft Katja Online (Natural) - German (Germany)'
+        )
+        ||
+        voices.find(v =>
+          v.name ===
+          'Microsoft Conrad Online (Natural) - German (Germany)'
+        )
+        ||
+        voices.find(v =>
+          v.lang === 'de-DE'
+        )
+        ||
+        null;
+
+    };
+
+  }
 
   startQuiz() {
 
@@ -489,22 +513,27 @@ isLetterMode(): boolean {
 
   speakWord(): void {
 
-  if (this.quizList.length === 0) {
-    return;
+    if (this.quizList.length === 0) {
+      return;
+    }
+
+    speechSynthesis.cancel();
+
+    const utterance =
+      new SpeechSynthesisUtterance(
+        this.quizList[this.index].de
+      );
+
+    if (this.selectedVoice) {
+      utterance.voice =
+        this.selectedVoice;
+    }
+
+    utterance.lang = 'de-DE';
+    utterance.rate = 0.8;
+
+    speechSynthesis.speak(utterance);
+
   }
-
-  speechSynthesis.cancel();
-
-  const utterance =
-    new SpeechSynthesisUtterance(
-      this.quizList[this.index].de
-    );
-
-  utterance.lang = 'de-DE';
-  utterance.rate = 0.8;
-
-  speechSynthesis.speak(utterance);
-
-}
 
 }
