@@ -1,5 +1,6 @@
 import { Component, HostListener, ViewChild, ElementRef, OnInit, ChangeDetectorRef,} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 interface Vocabulary {
   de: string;
@@ -578,29 +579,50 @@ isLetterMode(): boolean {
 
   }
 
-  speakWord(): void {
+  async speakWord(): Promise<void> {
 
     if (this.quizList.length === 0) {
       return;
     }
 
-    speechSynthesis.cancel();
+    const word =
+      this.quizList[this.index].de;
 
-    const utterance =
-      new SpeechSynthesisUtterance(
-        this.quizList[this.index].de
+    const url =
+      'https://lernwoerterquiz-api-cmgafyhkc5gaegh7.westeurope-01.azurewebsites.net/api/speak?text=' +
+      encodeURIComponent(word);
+
+    try {
+
+      const response =
+        await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(
+          'Fehler beim Abrufen der Audiodatei'
+        );
+      }
+
+      const blob =
+        await response.blob();
+
+      const audioUrl =
+        URL.createObjectURL(blob);
+
+      const audio =
+        new Audio(audioUrl);
+
+      await audio.play();
+
+    }
+    catch (error) {
+
+      console.error(
+        'Fehler bei Azure Speech:',
+        error
       );
 
-    if (this.selectedVoice) {
-      utterance.voice =
-        this.selectedVoice;
     }
-
-    utterance.lang = 'de-DE';
-    utterance.rate = 0.8;
-    utterance.pitch = 1;
-
-    speechSynthesis.speak(utterance);
 
   }
 
