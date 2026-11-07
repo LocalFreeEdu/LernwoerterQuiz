@@ -10,6 +10,7 @@
 
           <input
             type="checkbox"
+            [disabled]="answerLocked"
             [(ngModel)]="vereinfachterModus"
             (change)="toggleVereinfachterModus()">
 
@@ -62,11 +63,11 @@
           class="progress-cell"
           [style.background]="
             cell === 'correct'
-              ? 'green'
+              ? '#4CAF50'
               : cell === 'partial'
-              ? '#FF9800'
+              ? '#F6E7B5'
               : cell === 'wrong'
-              ? 'red'
+              ? '#F44336'
               : '#dcdcdc'
           ">
 
@@ -196,6 +197,7 @@
       @if(feedback){
 
         <p id="correct-answer">
+          <br>
           {{ feedback }}
         </p>
 

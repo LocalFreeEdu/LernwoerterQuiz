@@ -111,12 +111,12 @@ export class App implements OnInit {
       this.quizList =
         [...this.vocab]
           .sort(() => Math.random() - 0.5)
-          .slice(0, 15);
+          .slice(0, 10);
 
     }
 
     this.progressCells =
-      Array(15).fill('gray');
+      Array(10).fill('gray');
 
     this.index = 0;
 
@@ -210,10 +210,10 @@ export class App implements OnInit {
 
       this.answerLocked = true;
 
-      this.nextButtonColor = '#f44336';
+      this.nextButtonColor = '#F44336';
 
       this.feedback =
-        `Falsch. Richtig wäre: ${correctAnswer}`;
+        `Richtig wäre: ${correctAnswer}`;
 
     }
 
@@ -222,7 +222,7 @@ export class App implements OnInit {
 
   nextQuestion() {
 
-    if( this.index < 14) {
+    if( this.index < 9) {
 
       this.index++;
 
@@ -267,7 +267,7 @@ export class App implements OnInit {
     const pos =
       this.correct + this.partial + this.wrong - 1;
 
-    if (pos >= 0 && pos < 15) {
+    if (pos >= 0 && pos < 10) {
       this.progressCells[pos] = type;
     }
   }

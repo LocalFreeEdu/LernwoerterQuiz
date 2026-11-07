@@ -1,14 +1,32 @@
-    /* --- Flex-Layout für die gesamte Seite --- */
-    :host {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding-top: 30px;
-    }
+@font-face {
+    font-family: 'Chalkduster';
+    src: url('../assets/fonts/Chalkduster.ttf')
+         format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- Flex-Layout für die gesamte Seite --- */
+  :host {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      min-height: 100vh;
+
+      background-image:
+          url('../assets/backgrounds/lernwoerter-bg.webp');
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
+      padding-top: 30px;
+  }
 
     body {
         font-family: Arial, sans-serif;
-        background: #f4f4f4;
+
         margin: 0;
         padding: 20px;
 
@@ -16,17 +34,61 @@
         justify-content: center;
         align-items: flex-start;
         gap: 40px;
+
+        background-image: url('../assets/backgrounds/lernwoerter-bg.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
     }
 
     /* Linker Bereich (Feedback + Quizbox) */
     #left-area {
         width: 600px;
+        height: fit-content;
+        display: inline-block;
+        align-self: flex-start;
+
+        background:
+            linear-gradient(
+                180deg,
+                #f6ebc4 0%,
+                #eedba5 45%,
+                #e5cc91 100%
+            );
+
+        border-radius: 12px;
+
+        padding: 24px;
+
+        box-shadow:
+            0 0 18px rgba(255,255,255,0.8),
+            0 8px 25px rgba(0,0,0,0.18);
+
+        border:
+            2px solid #c5a96a;
+    }
+
+    #feedback-header,
+    #check-btn,
+    #next-btn,
+    .word-btn,
+    .undo-btn,
+    #restart-end-btn,
+    .progress-cell{
+      font-family:
+        "Segoe Print",
+        "Comic Sans MS",
+        cursive;
     }
 
     #feedback-title {
         text-align: left;
+        font-family:
+          "Segoe Print",
+          "Comic Sans MS";
         font-size: 20px;
         font-weight: bold;
+        text-decoration: underline;
         margin-top: 30px;
     }
 
@@ -35,36 +97,71 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    
+    font-family:
+      "Segoe Print",
+      "Comic Sans MS",
+      cursive;
     }
 
     #progress-bar {
-        display: flex;
-        gap: 4px;
-        margin: 10px auto 20px auto;
-        max-width: 600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 10px auto 20px auto;
+      flex-wrap: wrap;
     }
 
     .progress-cell {
+
+        width: 28px;
+        height: 28px;
+
+        flex: none;
+
+        border-radius: 50%;
+
+        border: 1px solid #000;
+
         display: flex;
-        flex: 1;
-        height: 20px;
-        background: #dcdcdc;
-        border-radius: 3px;
-        transition: background 0.3s ease;
 
         justify-content: center;
         align-items: center;
-        color: white;
-        font-weight: bold;
 
+        color: white;
+
+        font-size: 11px;
+        font-weight: bold;
     }
+    
 
     #quiz-box {
-        background: white;
+
+        background:
+            linear-gradient(
+                180deg,
+                #355e3b 0%,
+                #2b4d31 50%,
+                #25432b 100%
+            );
+
+        color: #f7f5e7;
+
+        font-family:
+          'Chalkduster',
+          cursive;
+
+        border: 12px solid #8b5a2b;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 0 20px rgba(255,255,255,0.7),
+            0 0 40px rgba(255,255,255,0.3),
+            0 8px 25px rgba(0,0,0,0.25);
+
         padding: 20px 20px 30px 20px;
-        border-style: none;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     h1 { text-align: center; }
@@ -83,7 +180,6 @@
     #correct-answer {
     margin-top: 10px;
     font-size: 16px;
-    color: #444;
     }
 
     #correct-answer b {
@@ -97,6 +193,9 @@
         box-sizing: border-box;
         padding: 10px;
         padding-right: 15px;   /* Abstand rechts */
+        font-family:
+          "Segoe Print",
+          "Comic Sans MS";
         font-size: 18px;
         margin-top: 10px;
         border-radius: 5px;
@@ -168,19 +267,55 @@
     }
 
     #upload-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 5px;
+        padding: 10px 18px;
 
-    background-color: #757575;
-    color: white;
+        border: 2px solid #6a431f;
 
-    cursor: pointer;
-    font-size: 14px;
+        border-radius: 8px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #c68d53 0%,
+                #a96f3c 50%,
+                #8b5a2b 100%
+            );
+
+        color: #fff8e8;
+
+        font-family:
+            "Segoe Print",
+            "Comic Sans MS",
+            cursive;
+
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        font-weight: bold;
+        cursor: pointer;
+
+        box-shadow:
+            0 0 12px rgba(255,255,255,0.9),
+            0 0 24px rgba(255,255,255,0.4),
+            inset 0 2px 0 rgba(255,255,255,0.25),
+            inset 0 -2px 0 rgba(0,0,0,0.15);
+
+        text-shadow:
+            0 1px 1px rgba(0,0,0,0.4);
+
+        transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
     }
 
     #upload-btn:hover {
-    background-color: #616161;
+
+        transform: translateY(-1px);
+
+        box-shadow:
+            0 0 18px rgba(255,255,255,1),
+            0 0 30px rgba(255,255,255,0.6),
+            inset 0 2px 0 rgba(255,255,255,0.25),
+            inset 0 -2px 0 rgba(0,0,0,0.15);
     }
 
     .toggle-container {
