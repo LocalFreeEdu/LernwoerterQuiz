@@ -1,6 +1,14 @@
 @font-face {
-    font-family: 'Chalkduster';
-    src: url('../assets/fonts/Chalkduster.ttf')
+    font-family: 'Kreideschrift';
+    src: url('../assets/fonts/CrayonLibre-Regular.ttf')
+         format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Stiftschrift';
+    src: url('../assets/fonts/Flow.ttf')
          format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -25,7 +33,7 @@
   }
 
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Stiftschrift';
 
         margin: 0;
         padding: 20px;
@@ -76,16 +84,14 @@
     #restart-end-btn,
     .progress-cell{
       font-family:
-        "Segoe Print",
-        "Comic Sans MS",
+        "Stiftschrift",
         cursive;
     }
 
     #feedback-title {
         text-align: left;
         font-family:
-          "Segoe Print",
-          "Comic Sans MS";
+          'Stiftschrift';
         font-size: 20px;
         font-weight: bold;
         text-decoration: underline;
@@ -97,11 +103,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    
-    font-family:
-      "Segoe Print",
-      "Comic Sans MS",
-      cursive;
     }
 
     #progress-bar {
@@ -149,7 +150,7 @@
         color: #f7f5e7;
 
         font-family:
-          'Chalkduster',
+          'Kreideschrift',
           cursive;
 
         border: 12px solid #8b5a2b;
@@ -194,8 +195,7 @@
         padding: 10px;
         padding-right: 15px;   /* Abstand rechts */
         font-family:
-          "Segoe Print",
-          "Comic Sans MS";
+          'Stiftschrift';
         font-size: 18px;
         margin-top: 10px;
         border-radius: 5px;
@@ -284,8 +284,7 @@
         color: #fff8e8;
 
         font-family:
-            "Segoe Print",
-            "Comic Sans MS",
+            'Stiftschrift',
             cursive;
 
         font-size: 16px;
