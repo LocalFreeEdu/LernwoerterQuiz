@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 
 interface Vocabulary {
   de: string;
+  typ?: string;
+  lerneinheit?: string;
+  alternativen?: string[];
   isNew?: boolean;
   vereinfachterModus?: boolean;
 }
@@ -48,6 +51,7 @@ export class App implements OnInit {
   usedWordIndices: number[] = [];
   currentWords: { index: number; word: string; }[] = [];
   index = 0;
+  anzahlFragen = 10;
   endofquiz = false;
   isTopicMode = false;
   vereinfachterModus = false;
@@ -108,10 +112,62 @@ export class App implements OnInit {
     }
     else {
 
+      const lerneinheiten =
+        [...new Set(
+          this.vocab
+            .map(v => v.lerneinheit)
+            .filter(le => le)
+        )];
+
+      //Debugging für Anzahl der Typen
+      //console.log(lerneinheiten);
+
+      const fragenProLerneinheit =
+        Math.floor(
+          this.anzahlFragen /
+          lerneinheiten.length
+        );
+
+      this.quizList = [];
+
+      const restFragen =
+        this.anzahlFragen %
+        lerneinheiten.length;
+
+      let restVerteilt = 0;
+
+      for (const le of lerneinheiten) {
+
+        const woerterAusLE =
+          this.vocab.filter(
+            v => v.lerneinheit === le
+          );
+
+        const zufallsAuswahl =
+          [...woerterAusLE]
+            .sort(() => Math.random() - 0.5)
+            .slice(
+              0,
+              fragenProLerneinheit +
+              (
+                restVerteilt < restFragen
+                  ? 1
+                  : 0
+              )
+            );
+
+        if (restVerteilt < restFragen) {
+          restVerteilt++;
+        }
+
+        this.quizList.push(
+          ...zufallsAuswahl
+        );
+      }
+
       this.quizList =
-        [...this.vocab]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 10);
+        this.quizList
+          .sort(() => Math.random() - 0.5);
 
     }
 
@@ -138,6 +194,9 @@ export class App implements OnInit {
     setTimeout(() => {
       this.speakWord();
     }, 300);
+
+    //Testausgabe der Fragen
+    //console.log(this.quizList);
 
 
   }
@@ -309,23 +368,42 @@ export class App implements OnInit {
         const fields =
           this.parseCsvLine(lines[i]);
 
-        // Aktuell nur eine Spalte erlaubt
-        if (fields.length !== 1) {
+        // Aktuell nur 3 oder 4 Spalten erlaubt
+        if (fields.length < 3) {
 
           alert(
-            'Die CSV-Datei darf aktuell nur eine Spalte enthalten.'
+            'Die CSV-Datei benötigt mindestens die Spalten Lernwort, Typ und Lerneinheit.'
           );
 
           this.vocab = [];
           return;
         }
 
+        const alternativen =
+          (fields[3] ?? '')
+            .split('|')
+            .map(x => x.trim())
+            .filter(x => x !== '');
+
         this.vocab.push({
+
           de: fields[0].trim(),
+
+          typ:
+            fields[1]?.trim(),
+
+          lerneinheit:
+            fields[2]?.trim(),
+
+          alternativen,
+
           isNew: false
+
         });
 
       }
+
+      //console.log(this.vocab);
 
       this.startQuiz();
       this.cdr.detectChanges();
