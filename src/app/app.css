@@ -15,11 +15,14 @@
 }
 
 /* --- Flex-Layout für die gesamte Seite --- */
-  :host {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      min-height: 100vh;
+:host {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding-top: 30px;
+
 
       background-image:
           url('../assets/backgrounds/lernwoerter-bg.webp');
@@ -29,8 +32,7 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
 
-      padding-top: 30px;
-  }
+}
 
     body {
         font-family: 'Stiftschrift';
