@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    min-height: 100dvh;
+    min-height: calc(100dvh - 30px);
     box-sizing: border-box;
     padding-top: 30px;
 
@@ -45,10 +45,6 @@
         align-items: flex-start;
         gap: 40px;
 
-        background-image: url('../assets/backgrounds/lernwoerter-bg.webp');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
     }
 
     /* Linker Bereich (Feedback + Quizbox) */
