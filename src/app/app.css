@@ -29,11 +29,21 @@
     background-repeat: no-repeat;
 }
 
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
     body {
         font-family: 'Stiftschrift';
 
-        margin: 0;
-        padding: 0px;
 
         display: flex;              /* Quiz links, Restart rechts */
         justify-content: center;
