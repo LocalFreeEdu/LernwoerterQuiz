@@ -380,6 +380,14 @@
   border: 1px solid #aaa;
   background: white;
   cursor: pointer;
+
+  min-width: 40px;
+  min-height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 #word-buttons .word-btn:first-child {

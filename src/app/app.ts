@@ -477,6 +477,23 @@ export class App implements OnInit {
     }
     else {
 
+      if(!this.isTopicMode) {
+        const words =
+          this.quizList[this.index].de;
+
+        this.currentWords =
+          words
+            .split('')
+            .map((char, index) => ({
+              word: char,
+              index
+            }))
+            .sort(() => Math.random() - 0.5);
+
+      }
+      else {
+      
+
       this.currentWords =
         words
           .map((word, index) => ({
@@ -484,6 +501,7 @@ export class App implements OnInit {
             index
           }))
           .sort(() => Math.random() - 0.5);
+        }
 
     }
   }
