@@ -19,26 +19,21 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    min-height: 100dvh;
+    height: 100dvh;
     box-sizing: border-box;
     padding-top: 30px;
 
-
-      background-image:
-          url('../assets/backgrounds/lernwoerter-bg.webp');
-
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-
+    background-image: url('../assets/backgrounds/lernwoerter-bg.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
     body {
         font-family: 'Stiftschrift';
 
         margin: 0;
-        padding: 20px;
+        padding: 0px;
 
         display: flex;              /* Quiz links, Restart rechts */
         justify-content: center;
