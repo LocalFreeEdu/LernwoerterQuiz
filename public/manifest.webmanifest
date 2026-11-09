@@ -5,6 +5,10 @@
   "start_url": "/LernwoerterQuiz/",
   "scope": "/LernwoerterQuiz/",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
   "background_color": "#0b5c4b",
   "theme_color": "#0b5c4b",
   "orientation": "portrait",
